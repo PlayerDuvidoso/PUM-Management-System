@@ -1,10 +1,22 @@
-users = [
+users = []
 
-    {"id": "1", "username": "johnvlogs", "email":"johnvlogs@email.com"},
-    {"id": "2", "username": "predo", "email":"predo7@email.com"},
-    {"id": "3", "username": "jiha12", "email":"jihashop12@email.com"},
-    {"id": "4", "username": "free_maxHD", "email":"free_fire871@email.com"},
-    {"id": "5", "username": "china", "email":"china@business.com"},
-    {"id": "6", "username": "free_palestine46", "email":"israel_best@email.com"}
+def create_user(username: str, email: str):
 
-]
+    last_id = len(users)+1 
+    data = {"id": f"{last_id}", "username": f"{username}", "email": f"{email}"}
+    response = str('Email already in use')
+    if check_exists(email) is False:
+        users.append(data)
+        response = str('User created successfully')
+    return response
+
+def check_exists(email: str):
+
+    all_emails = []
+    for user in users:
+        all_emails.append(user['email'])
+    if email in all_emails:
+        return True
+    elif len(all_emails) == 0:
+        return False
+    return False

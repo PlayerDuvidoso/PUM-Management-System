@@ -3,20 +3,49 @@
 {% block content %}
     <section>
 
-        <div class="container py-5">
-            <form methods="POST" action="{{url_for('user.user_list')}}">
+
+        <!--User Creation Form-->
+        <div class="container mt-5 border border-dark-subtle border-2 rounded-3">
+            <h2 class="py-3">User creation</h2>
+            <form method="POST" action="{{url_for('user.user_list')}}">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1">
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    <label for="Username" class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control border-dark-subtle" id="Username">
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
+                    <label for="Email" class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control border-dark-subtle" id="Email">
+                    <p>{{ status }}</p>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary my-3">Sign-Up</button>
             </form>
         </div>
+
+    </section>
+
+    <section>
+
+        <div class="container mt-5 border border-dark-subtle border-2 rounded-3">
+            <h2 class="py-3">All users</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for User in users %}
+                        <tr>
+                            <th scope="row">{{User['id']}}</th>
+                            <td>{{User['username']}}</td>
+                            <td>{{User['email']}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
     </section>
 {% endblock content %}

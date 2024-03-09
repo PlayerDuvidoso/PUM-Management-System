@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request
+from database import users
 
 user_route = Blueprint('user', __name__)
 
@@ -17,17 +18,24 @@ Users Route
 """
 
 
-@user_route.route('/')
+@user_route.route('/', methods=['GET', 'POST'])
 def user_list():
 
-    return render_template('user_list.html')
+    if request.method == 'GET':
 
-@user_route.route('/', methods=['POST'])
-def user_insert():
+        return render_template('user_list.html', status='', users=users.users)
+    
+    elif request.method == 'POST':
 
-    print('I got called')
+        if 'username' in request.form.keys() and request.form.get('username').strip() is not '':
+            username = request.form.get('username').strip()
+            
+            if 'email' in request.form.keys() and request.form.get('email').strip() is not '':
+                email = request.form.get('email').strip().lower()
 
-    return render_template('user_list.html')
+                status = users.create_user(username, email)
+
+                return render_template('user_list.html', status=status, users=users.users)
 
 @user_route.route('/new')
 def user_new(): #Renderizar o formulario para criar um client
