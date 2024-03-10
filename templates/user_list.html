@@ -34,14 +34,19 @@
                         <th scope="col">#</th>
                         <th scope="col">Username</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for User in users %}
-                        <tr>
+                        <tr class="align-middle">
                             <th scope="row">{{User['id']}}</th>
                             <td>{{User['username']}}</td>
                             <td>{{User['email']}}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary">Details</button>
+                                <button class="btn btn-danger" hx-target="#body" hx-delete="{{url_for('user.user_delete', id=User['id'])}}" hx-trigger="click">Delete</button>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

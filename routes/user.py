@@ -27,10 +27,10 @@ def user_list():
     
     elif request.method == 'POST':
 
-        if 'username' in request.form.keys() and request.form.get('username').strip() is not '':
+        if 'username' in request.form.keys() and request.form.get('username').strip() != '':
             username = request.form.get('username').strip()
             
-            if 'email' in request.form.keys() and request.form.get('email').strip() is not '':
+            if 'email' in request.form.keys() and request.form.get('email').strip() != '':
                 email = request.form.get('email').strip().lower()
 
                 status = users.create_user(username, email)
@@ -55,4 +55,7 @@ def user_update(id): #Atualizar informações do cliente
 
 @user_route.route('/<int:id>/delete', methods=['DELETE'])
 def user_delete(id): #Remove o cliente do banco de dados
-    pass
+    
+    users.delete_user(id)
+
+    return render_template('user_list.html', status='', users=users.users)

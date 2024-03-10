@@ -20,3 +20,6 @@ def check_exists(email: str):
     elif len(all_emails) == 0:
         return False
     return False
+
+def delete_user(id: int):
+    users.pop(id-1)
