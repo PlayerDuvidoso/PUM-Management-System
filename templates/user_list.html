@@ -3,22 +3,21 @@
 {% block content %}
     <section>
 
-
         <!--User Creation Form-->
         <div class="container mt-5 border border-dark-subtle border-2 rounded-3">
             <h2 class="py-3">User creation</h2>
-            <form method="POST" action="{{url_for('user.user_list')}}">
+            <form method="POST" id="user-form">
                 <div class="mb-3">
                     <label for="Username" class="form-label">Username</label>
-                    <input type="text" name="username" class="form-control border-dark-subtle" id="Username">
+                    <input type="text" name="username" class="form-control border-dark-subtle" hx-validate="true">
                 </div>
                 <div class="mb-3">
                     <label for="Email" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control border-dark-subtle" id="Email">
+                    <input type="email" name="email" class="form-control border-dark-subtle" hx-validate="true">
                     <p>{{ status }}</p>
                 </div>
-                <button type="submit" class="btn btn-primary my-3">Sign-Up</button>
             </form>
+            <button hx-swap="beforeend" hx-target="#user-list" hx-post="{{url_for('user.user_list')}}" hx-include="#user-form" hx-trigger="click" class="btn btn-primary my-3">Sign-Up</button>
         </div>
 
     </section>
@@ -37,7 +36,7 @@
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="user-list">
                     {% for User in users %}
                         <tr class="align-middle">
                             <th scope="row">{{User['id']}}</th>
@@ -45,7 +44,7 @@
                             <td>{{User['email']}}</td>
                             <td>
                                 <button type="button" class="btn btn-primary">Details</button>
-                                <button class="btn btn-danger" hx-target="#body" hx-delete="{{url_for('user.user_delete', id=User['id'])}}" hx-trigger="click">Delete</button>
+                                <button class="btn btn-danger" hx-target="#body" hx-delete="{{url_for('user.user_delete', email=User['email'])}}" hx-trigger="click">Delete</button>
                             </td>
                         </tr>
                     {% endfor %}

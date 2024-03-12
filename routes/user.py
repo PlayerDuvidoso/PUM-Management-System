@@ -23,7 +23,7 @@ def user_list():
 
     if request.method == 'GET':
 
-        return render_template('user_list.html', status='', users=users.users)
+        return render_template('user_list.html', status='', users=users.get_users())
     
     elif request.method == 'POST':
 
@@ -33,29 +33,31 @@ def user_list():
             if 'email' in request.form.keys() and request.form.get('email').strip() != '':
                 email = request.form.get('email').strip().lower()
 
-                status = users.create_user(username, email)
+                user_data = users.create_user(username, email)
 
-                return render_template('user_list.html', status=status, users=users.users)
+                return render_template('user_row.html', response=user_data['response'], user=user_data['data'])
+        
+        return render_template('user_row.html', response='Invalid credentials!', users='')
 
 @user_route.route('/new')
 def user_new(): #Renderizar o formulario para criar um client
     return render_template('user_form.html')
 
-@user_route.route('/<int:id>')
+@user_route.route('/<email>')
 def user_id(id): #Obter os dados de um cliente
     pass
 
-@user_route.route('/<int:id>/edit')
+@user_route.route('/<email>/edit')
 def user_edit(id): #Renderizar o formulario para edição do cliente
     pass
 
-@user_route.route('/<int:id>/update', methods=['PUT'])
+@user_route.route('/<email>/update', methods=['PUT'])
 def user_update(id): #Atualizar informações do cliente
     pass
 
-@user_route.route('/<int:id>/delete', methods=['DELETE'])
-def user_delete(id): #Remove o cliente do banco de dados
+@user_route.route('/<email>/delete', methods=['DELETE'])
+def user_delete(email): #Remove o cliente do banco de dados
     
-    users.delete_user(id)
+    users.delete_user(email)
 
-    return render_template('user_list.html', status='', users=users.users)
+    return render_template('user_list.html', status='', users=users.get_users())

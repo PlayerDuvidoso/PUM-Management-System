@@ -1,0 +1,43 @@
+users = []
+
+def create_user(username: str, email: str):
+
+    last_id = len(users)+1 
+    data = {"id": f"{last_id}", "username": f"{username}", "email": f"{email}"}
+    response = str('Email already in use')
+    if check_exists(email) is False:
+        users.append(data)
+        response = str('User created successfully')
+    return {'response': f'{response}', 'data': data}
+
+def check_exists(email: str):
+
+    all_emails = []
+    for user in users:
+        all_emails.append(user['email'])
+    if email in all_emails:
+        return True
+    elif len(all_emails) == 0:
+        return False
+    return False
+
+
+def get_index(id: int):
+    for i, user in enumerate(users):
+
+        print(f'')
+
+        if user['id'] == id:
+            return i
+    return Exception()
+
+def delete_user(id: int):
+
+    user_ids = []
+    for user in users:
+        user_ids.append(user['id'])
+    print(user_ids)
+
+
+    print(f'ID usuario: {id}')
+    users.pop(get_index(id))
